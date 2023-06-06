@@ -9,21 +9,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.u4d21.exceptions.ErrorsPayload;
-import com.example.u4d21.exceptions.NotFoundException;
+import com.example.u4d21.exceptions.UnsupportedLanguageException;
 
 @RestControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ErrorsPayload> handleNotFound(NotFoundException e) {
-		ErrorsPayload payload = new ErrorsPayload(e.getMessage(), new Date(), 404);
-		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.NOT_FOUND);
-	}
-
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorsPayload> handleGenericErrors(Exception e) {
-		System.out.println(e);
-		ErrorsPayload payload = new ErrorsPayload("GENERIC SERVER ERROR! WE GONNA FIX IT ASAP!", new Date(), 500);
+	@ExceptionHandler(UnsupportedLanguageException.class)
+	public ResponseEntity<ErrorsPayload> handleUnsupportedLanguageException(UnsupportedLanguageException ex) {
+		System.out.println(ex);
+		ErrorsPayload payload = new ErrorsPayload("LA LINGUA USATA E DIVERSA DA QUELLA INGLESE E ITALIANA", new Date(),
+				500);
 		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
